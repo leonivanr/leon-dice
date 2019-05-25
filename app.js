@@ -1,0 +1,11 @@
+let secuencia = [];
+let secuenciaJugador = [];
+let luz;
+let turnoUser;
+let correcto;
+let intervalo;
+let turnoCpu;
+let ruido = false;
+let escricto = false;
+let on = false;     
+let ganador;
