@@ -10,32 +10,35 @@
 </head>
 
 <body>
-    <audio id="blue-e">
+    <audio id="azul-snd">
         <source src="sounds/e.mp3">
         </source>
     </audio>
-    <audio id="yellow-c">
+    <audio id="amarillo-snd">
         <source src="sounds/c-sharp.wav">
         </source>
     </audio>
-    <audio id="red-a">
+    <audio id="rojo-snd">
         <source src="sounds/a.mp3">
         </source>
     </audio>
-    <audio id="green-eh">
+    <audio id="verde-snd">
         <source src="sounds/e-higher.mp3">
         </source>
     </audio>
     <div class="container">
-        <div id="opciones">
-            <h4>Leon dice:</h4>
 
-        </div>
         <div class="juego">
-            <div id="casillaUno" class="casillas"></div>
-            <div id="casillaDos" class="casillas"></div>
-            <div id="casillaTres" class="casillas"></div>
-            <div id="casillaCuatro" class="casillas"></div>
+            <div id="verde" class="casillas"></div>
+            <div id="rojo" class="casillas"></div>
+            <div id="amarillo" class="casillas"></div>
+            <div id="azul" class="casillas"></div>
+            <div id="opciones">
+                <img id="jugar"src="play-button.svg" alt="">
+                <div id="contador">
+                   <span id='racha'></span>
+                </div>
+            </div>
         </div>
     </div>
     <script src="app.js"></script>
