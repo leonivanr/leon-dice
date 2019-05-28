@@ -20,6 +20,7 @@ body {
     background: black;
     border-radius: 50%;
     padding: 10px 8px 8px 10px;
+    box-shadow: 0px 0px 50px 10px rgba(0, 0, 0, 0.75);
 }
 
 .casillas {
@@ -73,25 +74,6 @@ body {
     font-family: 'Teko',
         sans-serif;
 }
-
-.verde-click {
-    background-color: lightgreen !important;
-}
-
-.rojo-click {
-    background-color: lightcoral !important;
-
-}
-
-.azul-click {
-    background-color: lightblue !important;
-
-}
-
-.amarillo-click {
-    background-color: lightyellow !important;
-}
-
 img {
     position: absolute;
     cursor: pointer;

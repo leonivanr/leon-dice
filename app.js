@@ -1,145 +1,192 @@
-let secuencia = [1,3,2,4,3,2,4,1,2,3,1,2,3,1,4,2,3,2];
+let secuencia = [];
 let secuenciaJugador = [];
-let luz;
+let contador;
 let ganador;
-var contador = 0;
-
-
+let luz;
+let intervaloId;
+let intervalo;
+let correcto;
+let turnoComp = false;
+const verdeQ = document.querySelector('#verde');
+const rojoQ = document.querySelector('#rojo');
+const amarilloQ = document.querySelector('#amarillo');
+const azulQ = document.querySelector('#azul');
 const contadorRacha = document.querySelector('#contador');
 const racha = document.querySelector('#racha');
 const jugarBtn = document.querySelector('#jugar');
-const agregarSecuencia = () => Math.round(Math.random() * 3) + 1;
-jugarBtn.addEventListener('click', turnoC(secuencia));
-const botones = Array.from(document.querySelectorAll('.casillas'));
-const activarBotones = () => botones.forEach(boton => boton.addEventListener('click', clickFn));
-const pausarBotones = () => botones.forEach(boton => boton.removeEventListener('click', clickFn));
 
-console.log(agregarSecuencia());
+// Cargar eventos.
+jugarBtn.addEventListener('click', main);
 
-function clickFn(e) {
-    pausarBotones();
-    let botonPresionado = e.target.id;
-    const clip = document.querySelector('#' + botonPresionado + '-snd');
-    clip.play();
-    const boton = document.querySelector('#' + botonPresionado);
-    boton.style.cursor = 'pointer';
-    boton.classList.toggle(botonPresionado + '-click');
+verdeQ.addEventListener('click', (e) => {
+    secuenciaJugador.push(1);
+    verde();
     setTimeout(() => {
-        boton.classList.toggle(botonPresionado + '-click');
-        activarBotones();
-    }, 700);
-    contador++;
+        limpiarColores();
+    }, 200)
+    esCorrecto();
+});
+rojoQ.addEventListener('click', (e) => {
+    secuenciaJugador.push(2);
+    rojo();
+    setTimeout(() => {
+        limpiarColores();
+    }, 200)
+    esCorrecto();
+});
+amarilloQ.addEventListener('click', (e) => {
+    secuenciaJugador.push(3);
+    amarillo();
+    setTimeout(() => {
+        limpiarColores();
+    }, 200)
+    esCorrecto();
+});
+azulQ.addEventListener('click', (e) => {
+    secuenciaJugador.push(4);
+    azul();
+    setTimeout(() => {
+        limpiarColores();
+    }, 200)
+    esCorrecto();
+});
 
-    racha.innerHTML = contador;
-}
 
-function comenzar() {
-    botones.forEach(boton => boton.style.cursor = 'pointer')
-    activarBotones();
-    const boton = document.querySelector('#jugar');
-    boton.style.display = 'none';
+function main() {
+    secuencia = generarSec();
+    ganador = false;
+    luz = 0;
+    intervaloId = 0;
+    contador = 1;
+    correcto = true;
+
+    //Añadir puntero al mouse.
+    verdeQ.style.cursor = 'pointer';
+    azulQ.style.cursor = 'pointer';
+    amarilloQ.style.cursor = 'pointer';
+    rojoQ.style.cursor = 'pointer';
+
+    jugarBtn.style.display = 'none';
     contadorRacha.style.display = 'block';
+    racha.innerHTML = contador;
+
+    turnoComp = true;
+
+    // Va a ejecutar la funcion "secuenciaCpu" cada 0.8 segundos.
+    intervaloId = setInterval(secuenciaCpu, 700);
 }
 
-function s() {
-    secuencia.forEach((pulsacion, index) => {
+function secuenciaCpu() {
+
+    if (luz == contador) {
+        clearInterval(intervaloId);
+        turnoComp = false;
+        limpiarColores();
+    }
+
+    if (turnoComp) {
+        limpiarColores();
         setTimeout(() => {
-            reproducirSonido(pulsacion);s
-        }, 1000 * index);
-})}
-
-function turnoC(secuencia) {
-    for (let i = 0; i < secuencia.length; i++) {
-        setTimeout(function () {
-            reproducirSonido(i+1);
-
-        }, 1000)
-    }
-}
-
-function reproducirSonido(pulsacion) {
-    switch (pulsacion) {
-        case 1:
-            const verdeSnd = document.querySelector('#verde-snd');
-            verdeSnd.play();
-            console.log("verde");
-
-            break;
-        case 2:
-            const rojoSnd = document.querySelector('#rojo-snd');
-            rojoSnd.play();
-            console.log("rojo");
-            break;
-        case 3:
-            const amarilloSnd = document.querySelector('#amarillo-snd');
-            amarilloSnd.play();
-            console.log("amarillo");
-
-            break;
-        case 4:
-            const azulSnd = document.querySelector('#azul-snd');
-            azulSnd.play();
-            console.log("azul");
-            break;
-        default:
-            break;
-    }
-}
-
-function addLuz(pulsacion) {
-    switch (pulsacion) {
-        case 1:
-            const verdeLuz = document.querySelector('#verde');
-            verdeLuz.classList.add('verde-click');
-            console.log("Luz-verde");
-            break;
-        case 2:
-            const rojoLuz = document.querySelector('#rojo');
-            rojoLuz.classList.add('rojo-click');
-            console.log("Luz-rojo");
-            break;
-        case 3:
-            const amarilloLuz = document.querySelector('#amarillo');
-            amarilloLuz.classList.add('amarillo-click');
-            console.log("Luz-amarillo");
-            break;
-        case 4:
-            const azulLuz = document.querySelector('#azul');
-            azulLuz.classList.add('azul-click');
-            console.log("Luz-azul");
-            break;
-        default:
-            break;
-    }
-}
-
-function disableLuz(pulsacion) {
-    switch (pulsacion) {
-        case 1:
-            const verdeLuz = document.querySelector('#verde');
-            verdeLuz.classList.remove('verde-click');
-            console.log("Luz-verde");
-            break;
-        case 2:
-            const rojoLuz = document.querySelector('#rojo');
-            rojoLuz.classList.remove('rojo-click');
-            console.log("Luz-rojo");
-            break;
-        case 3:
-            const amarilloLuz = document.querySelector('#amarillo');
-            amarilloLuz.classList.remove('amarillo-click');
-            console.log("Luz-amarillo");
-            break;
-        case 4:
-            const azulLuz = document.querySelector('#azul');
-            azulLuz.classList.remove('azul-click');
-            console.log("Luz-azul");
-            break;
-        default:
-            break;
+            if (secuencia[luz] === 1) {
+                verde()
+            };
+            if (secuencia[luz] === 2) {
+                rojo()
+            };
+            if (secuencia[luz] === 3) {
+                amarillo()
+            };
+            if (secuencia[luz] === 4) {
+                azul()
+            };
+            luz++;
+        }, 200);
     }
 }
 
 //TODO:
-//ADD:
-//FIXME:
+function esCorrecto() {
+    if (secuenciaJugador[secuenciaJugador.length - 1] !== secuencia[secuenciaJugador.length - 1]) {
+        correcto = false;
+    }
+    if (secuenciaJugador.length == 25) {
+        hayGanador();
+    }
+    if (correcto == false) {
+        prenderColores();
+        racha.innerHTML = ':(';
+        setTimeout(() => {
+            contador = 1;
+            racha.innerHTML = contador;
+            limpiarColores();
+            turnoComp = true;
+            luz = 0;
+            secuenciaJugador = [];
+            correcto = true;
+            intervaloId = setInterval(secuenciaCpu, 800);
+        }, 800)
+    }
+    if (contador == secuenciaJugador.length && correcto && !ganador) {
+        contador++;
+        secuenciaJugador = [];
+        turnoComp = true;
+        luz = 0;
+        racha.innerHTML = contador;
+        intervaloId = setInterval(secuenciaCpu, 800);
+    }
+}
+
+function generarSec() {
+    for (let i = 0; i < 50; i++) {
+        secuencia.push(Math.round(Math.random() * 3) + 1);
+    }
+    return secuencia;
+}
+
+function azul() {
+    let clip = document.querySelector('#azul-snd');
+    clip.play();
+    azulQ.style.backgroundColor = 'lightblue';
+}
+
+function verde() {
+    let clip = document.querySelector('#verde-snd');
+    clip.play();
+    verdeQ.style.backgroundColor = 'lightgreen';
+}
+
+function rojo() {
+    let clip = document.querySelector('#rojo-snd');
+    clip.play();
+    rojoQ.style.backgroundColor = 'lightcoral';
+}
+
+function amarillo() {
+    let clip = document.querySelector('#amarillo-snd');
+    clip.play();
+    amarilloQ.style.backgroundColor = 'lightyellow';
+}
+
+function limpiarColores() {
+    verdeQ.style.backgroundColor = 'green';
+    rojoQ.style.backgroundColor = 'red';
+    amarilloQ.style.backgroundColor = 'yellow';
+    azulQ.style.backgroundColor = 'blue';
+}
+
+function hayGanador() {
+    racha.innerHTML = 'WIN';
+    ganador = true;
+    prenderColores();
+}
+
+function prenderColores() {
+    verdeQ.style.backgroundColor = 'lightgreen';
+    rojoQ.style.backgroundColor = 'lightcoral';
+    amarilloQ.style.backgroundColor = 'lightyellow';
+    azulQ.style.backgroundColor = 'lightblue';
+}
+
+function activarEventos() {
+    
+}
